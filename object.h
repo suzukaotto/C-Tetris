@@ -19,14 +19,12 @@ void board_print();
 #define BRICK_Y          4
 #define BRICK_X          4
 
-extern int brick_x, brick_y;
-extern int brick_form, brick_rotate;
+int  brick_pos[2]; // [1]: X, [2]: Y;
+int  brick_form, brick_rotate;
 char tetromino[7][4][4][4];
 void brick_init();
 void brick_print();
-void brick_move(int x);
-
-
-
+void block_down();
+int  brick_move(int x, int y, int rotate);
 
 #endif

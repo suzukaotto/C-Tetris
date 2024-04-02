@@ -1,7 +1,9 @@
 #include "func.h"
+#include "object.h"
 
 #include <windows.h>
 #include <conio.h>
+#include "keys.h"
 
 char key_input() {
 	char key = NULL;
@@ -25,6 +27,60 @@ void cursorView(bool visible) {
     SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
 }
 
-void system_cls() {
+int game_pause(void) {
+	int view_x = 20;
+	int view_y = 5;
+	
+	// map blur
+	int x, y;
+	cursorPos(0, 0);
+	for (y=0; y<BOARD_Y+2; y++) {
+		for (x=0; x<BOARD_X+2; x++)
+			printf("#");
+		printf("\n");
+	}
+	
+	// text print
+	cursorView(true);
+	cursorPos(view_x, view_y);
+	printf("Game Pause . . . ");
+	cursorPos(view_x, view_y+1);
+	printf("Press any key to continue . . . ");	
+	
+	getch();
+	cursorView(false);
+	system_cls();
+	
+	return 0;
+}
+
+int game_exit(void) {
+	int view_x = 20;
+	int view_y = 5;
+	
+	cursorView(true);
+	cursorPos(view_x, view_y);
+	printf("Are you sure game byebye?");
+	cursorPos(view_x, view_y+1);
+	printf("Press any key to continue. [EXIT: Y]: ");
+	
+	char key = getch();
+	cursorView(false);
+	
+	if (key == ky || key == kY)
+		exit(0);
+	
+	system_cls();
+	
+	return 1;
+}
+
+void system_pause(void) {
+	system("pause");
+	return;
+}
+
+void system_cls(void) {
 	system("cls");
+	return;
 }
