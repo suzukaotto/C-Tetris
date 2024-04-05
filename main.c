@@ -7,9 +7,58 @@
 #include "object.h"
 #include "func.h"
 
-int game_delay = 1; // ms
+int GAME_DELAY = 10;  // ms
+int DROP_TIME  = 20;
+
+unsigned int score;
+
+void game_play();
+void game_tutorial();
 
 int main() {
+	char key;
+	while (1) {
+		printf("Tetris GAME");
+		printf("\n\n");
+		
+		printf("1. Play \n");
+		printf("2. How to play? \n");
+		printf("3. Exit \n");
+		
+		printf("> ");
+		key = getch();
+		
+		system_cls();
+		switch(key) {
+			case k1:
+				game_play();
+				break;
+			
+			case k2:
+				game_tutorial();
+				break;
+			
+			case kEnter:
+				break;
+			
+			default:
+				exit(0);
+				
+		}
+		system_cls();
+	}
+	
+	game_play();
+}
+
+void game_tutorial() {
+	printf("아직 안만들었어요 ㅎㅎ\n");
+	
+	system_pause();
+	system_cls();
+}
+
+void game_play() {
 	cursorView(false);
 	srand(time(NULL));
 	
@@ -19,8 +68,8 @@ int main() {
 	int fps_count = 0;
 	char key;
 	
-	bool brick_down = true;
 	while (true) {
+		bool brick_down = true;
 		
 		// FPS count
 		fps_count += 1;
@@ -37,46 +86,37 @@ int main() {
 		// key control
 		key = key_input();
 		switch(key) {
-			// brick left
+			// brick move
 			case ka:
 			case kA:
 				brick_move(-1, 0, 0);
 				break;
 			
-			// brick right
 			case kd:
 			case kD:
 				brick_move(1, 0, 0);
 				break;
-				
-			// brick up
+			
 			case kw:
 			case kW:
 				brick_move(0, -1, 0);
 				break;
-				
-			// brick down
+			
 			case ks:
 			case kS:
 				brick_move(0, 1, 0);
 				brick_down = false;
 				break;
 			
-			// brick rotate plus
+			// brick rotate
 			case kr:
 			case kR:
 				brick_move(0, 0, 1);
 				break;
-				
-			// brick rotate minus
-			case ke:
-			case kE:
-				brick_move(0, 0, -1);
-				break;
 			
 			// brick harddrop
 			case kSpace:
-				brick_init();
+				brick_harddrop();
 				break;
 			
 			// display refresh
@@ -85,32 +125,33 @@ int main() {
 				system_cls();
 				break;
 			
-			case kx:
-			case kX:
-				brick_down = !brick_down;
-				break;
-			
 			// game pause
-			case kEnter:
+			case kp:
+			case kP:
 				game_pause();
 				break;
 			
 			// game exit
 			case kEsc:
-				game_exit();
+				if (game_exit())
+					return;
 				break;
 				
 		}
 		
 		// block down
-		if (fps_count%30==0 && brick_down)
+		if (fps_count%DROP_TIME==0 && brick_down)
 			brick_move(0, 1, 0);
 		
+		score += board_break();
+		cursorPos(20, 15);
+		printf("SCORE: %d", score);
+		
 		// game delay
-		Sleep(game_delay);
+		Sleep(GAME_DELAY);
 		
 	}
 	
-	return 0;
+	return;
 }
 

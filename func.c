@@ -68,11 +68,11 @@ int game_exit(void) {
 	cursorView(false);
 	
 	if (key == ky || key == kY)
-		exit(0);
+		return 1;
 	
 	system_cls();
 	
-	return 1;
+	return 0;
 }
 
 void system_pause(void) {

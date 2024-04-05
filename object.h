@@ -1,6 +1,8 @@
 #ifndef _OBJECT_H__
 #define _OBJECT_H__
 
+#define DEBUG_MODE true
+
 // board property
 #define BOARD_X 10
 #define BOARD_Y 20
@@ -9,9 +11,12 @@
 #define BOARD_WALL  '#'
 #define BOARD_BRICK 'O'
 
+#define LINE_SCORE 100
+
 char board[BOARD_Y+2][BOARD_X+2];
 void board_init();
 void board_print();
+int  board_break(); 
 
 // brick property
 #define BRICK_MAX_FORM   7
@@ -28,5 +33,6 @@ void brick_init();
 void brick_print();
 void brick_set();
 int  brick_move(int x, int y, int rotate);
+void brick_harddrop();
 
 #endif

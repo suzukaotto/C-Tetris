@@ -29,13 +29,41 @@ void board_print() {
 	
 	// board print
 	for (y=0; y<BOARD_Y+2; y++) {
-		for (x=0; x<BOARD_X*2+2; x++)
+		for (x=0; x<BOARD_X+2; x++)
 			printf("%c", board[y][x]);
 		printf("\n");
 	}
 	
 	return;
 }
+
+int board_break() {
+	int x, y, i;
+	int score = 0;
+	
+	for (y = BOARD_Y; y > 0; y--) {
+		bool line_full = true;
+		
+		for (x = 1; x < BOARD_X + 1; x++)
+			if (board[y][x] != BOARD_BRICK)
+				line_full = false;
+		
+		if (line_full) {
+			score += LINE_SCORE;
+			for (x = 1; x < BOARD_X + 1; x++)
+				board[y][x] = BOARD_BG;
+			
+			for (i = y - 1; i > 0; i--) {
+				for (x = 1; x < BOARD_X + 1; x++) {
+					board[i + 1][x] = board[i][x];
+				}
+			}
+		}
+	}
+	
+	return score;
+}
+
 
 char tetromino[7][4][4][4] = {
 	// O Tetromino
@@ -245,7 +273,7 @@ void brick_init() {
 }
 
 void brick_print() {
-	char fill_sign =  '#';
+	char fill_sign =  '@';
 	char space_sign = '\0';
 	
 	int x, y;
@@ -262,13 +290,7 @@ void brick_print() {
 void brick_set() {
 	int board_x, board_y;
 	for (board_y=0; board_y<BRICK_X; board_y++) {
-		for (board_x=0; board_x<BRICK_Y; board_x++) {
-			cursorPos(20+board_x*2, board_y);
-			printf("%d", tetromino[brick_form][brick_rotate][board_y][board_x]);
-			
-			cursorPos(30+board_x*3, board_y);
-			printf("%d", board[brick_pos[1]+board_y][brick_pos[0]+board_x]);
-			
+		for (board_x=0; board_x<BRICK_Y; board_x++) {			
 			// if not board bg 
 			if (tetromino[brick_form][brick_rotate][board_y][board_x])
 				board[brick_pos[1]+board_y][brick_pos[0]+board_x] = BOARD_BRICK;
@@ -295,33 +317,45 @@ int brick_move(int x, int y, int rotate) {
 	int brick_x, brick_y;
 	for (board_y=0; board_y<BRICK_X; board_y++) {
 		for (board_x=0; board_x<BRICK_Y; board_x++) {
-			cursorPos(20+board_x*2, board_y);
-			printf("%d", tetromino[brick_form][vif_rotate][board_y][board_x]);
-			
-			cursorPos(30+board_x*3, board_y);
-			printf("%d", board[vif_pos[1]+board_y][vif_pos[0]+board_x]);
-			
 			// if not board bg 
 			if (tetromino[brick_form][vif_rotate][board_y][board_x] && !(board[vif_pos[1]+board_y][vif_pos[0]+board_x] == BOARD_BG)) {
 				drop_stack += 1;
-				cursorPos(45, 0);
-				printf("DSTACK=%d", drop_stack);
+				
+				// DEBUG_MODE
+				if (DEBUG_MODE) {
+					cursorPos(45, 0);
+					printf("DSTACK=%d", drop_stack);
+				}
+				
 				if (drop_stack >= MAX_DROP_STACK) {
 					drop_stack = 0;
 					brick_set();
 					brick_init();
+					
+					return 4;
 				}
+				
 				return 1;
 			}
-				
 		}
 	}
 	// ######
-		
+	
+	if (x == 0)
+		drop_stack = 0;
+	
 	brick_pos[0] = vif_pos[0];
 	brick_pos[1] = vif_pos[1];
 	brick_rotate = vif_rotate;
-	drop_stack = 0;
 	return 0;
+}
+
+void brick_harddrop() {
+	int rst;
+	while (1) {
+		rst = brick_move(0, 1, 0);
+		if (rst == 4)
+			return 0;
+	}
 }
 
