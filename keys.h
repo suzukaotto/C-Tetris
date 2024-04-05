@@ -1,5 +1,5 @@
-#ifndef _KEYS_H
-#define KEYS_H
+#ifndef _KEYS_H__
+#define _KEYS_H__
 
 // Normal key 
 enum {k0=48, k1, k2, k3, k4, k5, k6, k7, k8, k9};

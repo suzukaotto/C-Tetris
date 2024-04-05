@@ -1,5 +1,5 @@
-#ifndef _OBJECT_H
-#define _OBJECT_H
+#ifndef _OBJECT_H__
+#define _OBJECT_H__
 
 // board property
 #define BOARD_X 10
@@ -19,12 +19,14 @@ void board_print();
 #define BRICK_Y          4
 #define BRICK_X          4
 
+#define MAX_DROP_STACK 5
+
 int  brick_pos[2]; // [1]: X, [2]: Y;
 int  brick_form, brick_rotate;
 char tetromino[7][4][4][4];
 void brick_init();
 void brick_print();
-void block_down();
+void brick_set();
 int  brick_move(int x, int y, int rotate);
 
 #endif

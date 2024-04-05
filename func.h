@@ -1,5 +1,5 @@
-#ifndef _FUNC_H
-#define _FUNC_H
+#ifndef _FUNC_H__
+#define _FUNC_H__
 
 #include <stdbool.h>
 

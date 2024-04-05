@@ -18,8 +18,10 @@ int main() {
 	
 	int fps_count = 0;
 	char key;
+	
+	bool brick_down = true;
 	while (true) {
-		bool is_brick_down = false;
+		
 		// FPS count
 		fps_count += 1;
 		
@@ -57,7 +59,7 @@ int main() {
 			case ks:
 			case kS:
 				brick_move(0, 1, 0);
-				is_brick_down = true;
+				brick_down = false;
 				break;
 			
 			// brick rotate plus
@@ -83,6 +85,11 @@ int main() {
 				system_cls();
 				break;
 			
+			case kx:
+			case kX:
+				brick_down = !brick_down;
+				break;
+			
 			// game pause
 			case kEnter:
 				game_pause();
@@ -96,8 +103,8 @@ int main() {
 		}
 		
 		// block down
-		if (fps_count%30==0 && !is_brick_down)
-			block_down();
+		if (fps_count%30==0 && brick_down)
+			brick_move(0, 1, 0);
 		
 		// game delay
 		Sleep(game_delay);
