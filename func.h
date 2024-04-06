@@ -10,6 +10,7 @@ void cursorView(bool visible);
 
 int game_exit(void);
 int game_pause(void);
+void game_reset(void);
 void system_pasue(void);
 void system_cls(void);
 

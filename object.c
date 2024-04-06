@@ -39,7 +39,6 @@ void board_print() {
 
 int board_break() {
 	int x, y, i;
-	int score = 0;
 	
 	for (y = BOARD_Y; y > 0; y--) {
 		bool line_full = true;
@@ -49,9 +48,16 @@ int board_break() {
 				line_full = false;
 		
 		if (line_full) {
-			score += LINE_SCORE;
-			for (x = 1; x < BOARD_X + 1; x++)
+			game_score += LINE_SCORE;
+			for (x = 1; x < BOARD_X + 1; x++) {
 				board[y][x] = BOARD_BG;
+				Sleep(10);
+				
+				// board print
+				cursorPos(0, 0);
+				board_print();
+			}
+				
 			
 			for (i = y - 1; i > 0; i--) {
 				for (x = 1; x < BOARD_X + 1; x++) {
@@ -61,7 +67,7 @@ int board_break() {
 		}
 	}
 	
-	return score;
+	return 0;
 }
 
 
@@ -319,7 +325,9 @@ int brick_move(int x, int y, int rotate) {
 		for (board_x=0; board_x<BRICK_Y; board_x++) {
 			// if not board bg 
 			if (tetromino[brick_form][vif_rotate][board_y][board_x] && !(board[vif_pos[1]+board_y][vif_pos[0]+board_x] == BOARD_BG)) {
-				drop_stack += 1;
+				// 아래로 떨어지는 경우에만 drop_stack 증가 
+				if (y>0)
+					drop_stack += 1;
 				
 				// DEBUG_MODE
 				if (DEBUG_MODE) {
@@ -332,7 +340,7 @@ int brick_move(int x, int y, int rotate) {
 					brick_set();
 					brick_init();
 					
-					return 4;
+					return 2;
 				}
 				
 				return 1;
@@ -354,7 +362,7 @@ void brick_harddrop() {
 	int rst;
 	while (1) {
 		rst = brick_move(0, 1, 0);
-		if (rst == 4)
+		if (rst == 2)
 			return 0;
 	}
 }

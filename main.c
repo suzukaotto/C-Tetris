@@ -31,6 +31,7 @@ int main() {
 		system_cls();
 		switch(key) {
 			case k1:
+				game_reset();
 				game_play();
 				break;
 			
@@ -65,8 +66,7 @@ void game_play() {
 	board_init();
 	brick_init();
 	
-	int fps_count = 0;
-	char key;
+	unsigned int fps_count = 0;
 	
 	while (true) {
 		bool brick_down = true;
@@ -84,7 +84,7 @@ void game_play() {
 		brick_print();
 		
 		// key control
-		key = key_input();
+		char key = key_input();
 		switch(key) {
 			// brick move
 			case ka:
@@ -125,6 +125,11 @@ void game_play() {
 				system_cls();
 				break;
 			
+			// reset game
+			case kBackspace:
+				game_reset();
+				break;
+			
 			// game pause
 			case kp:
 			case kP:
@@ -139,13 +144,13 @@ void game_play() {
 				
 		}
 		
-		// block down
+		// brick down
 		if (fps_count%DROP_TIME==0 && brick_down)
 			brick_move(0, 1, 0);
 		
 		score += board_break();
 		cursorPos(20, 15);
-		printf("SCORE: %d", score);
+		printf("SCORE: %d", game_score);
 		
 		// game delay
 		Sleep(GAME_DELAY);

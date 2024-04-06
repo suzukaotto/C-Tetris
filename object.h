@@ -26,6 +26,8 @@ int  board_break();
 
 #define MAX_DROP_STACK 5
 
+extern int game_score = 0;
+
 int  brick_pos[2]; // [1]: X, [2]: Y;
 int  brick_form, brick_rotate;
 char tetromino[7][4][4][4];

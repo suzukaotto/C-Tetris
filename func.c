@@ -27,6 +27,12 @@ void cursorView(bool visible) {
     SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
 }
 
+void game_reset(void) {
+	board_init();
+	brick_init();
+	game_score = 0;
+}
+
 int game_pause(void) {
 	int view_x = 20;
 	int view_y = 5;
