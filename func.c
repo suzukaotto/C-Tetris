@@ -32,8 +32,25 @@ void cursorView(bool visible) {
 }
 
 void game_reset(void) {
-	board_init();
-	brick_init();
+	int view_x = 20;
+	int view_y = 5;
+	
+	// text print
+	cursorView(true);
+	cursorPos(view_x, view_y);
+	printf("Are you sure you want to reset the game?");
+	cursorPos(view_x, view_y+1);
+	printf("Press [Y] key to reset the game: ");
+	
+	char key = getch();
+	cursorView(false);
+	
+	if (key == kY || key == ky) {
+		board_init();
+		brick_init();
+	}
+	
+	system_cls();
 	
 	return;
 }

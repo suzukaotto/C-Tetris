@@ -32,7 +32,7 @@ void board_print() {
 	for (y=0; y<BOARD_Y+2; y++) {
 		for (x=0; x<BOARD_X+2; x++) {
 			printf("%c", board[y][x]);
-		}			
+		}
 		printf("\n");
 	}
 	
@@ -347,7 +347,10 @@ int brick_move(int x, int y, int rotate) {
 				if (drop_stack >= MAX_DROP_STACK) {
 					drop_stack = 0;
 					brick_set();
-					brick_init();
+					if (brick_init() == 1){
+						printf("Game over!");
+						system_pause();
+					}
 					
 					return 2;
 				}

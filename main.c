@@ -16,7 +16,7 @@ void game_tutorial();
 int main() {
 	char key;
 	while (1) {
-		printf("Tetris GAME");
+		printf("T E T R I S");
 		printf("\n\n");
 		
 		printf("1. Play \n");
@@ -29,7 +29,6 @@ int main() {
 		system_cls();
 		switch(key) {
 			case k1:
-				game_reset();
 				game_play();
 				break;
 			
@@ -51,7 +50,15 @@ int main() {
 }
 
 void game_tutorial() {
-	printf("아직 안만들었어요 ㅎㅎ\n");
+	printf("방 향 키: WASD  \n");
+	printf("회    전: R     \n");
+	printf("하드드롭: SPACE \n");
+	printf("게임리셋: G     \n");
+	printf("일시중지: P     \n");
+	printf("니 기 기: ESC   \n");
+	
+	printf("\n\n\n\n\n");
+	
 	
 	system_pause();
 	system_cls();
