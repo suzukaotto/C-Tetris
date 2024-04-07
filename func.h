@@ -14,5 +14,4 @@ void game_reset(void);
 void system_pasue(void);
 void system_cls(void);
 
-
 #endif

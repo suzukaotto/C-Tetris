@@ -18,6 +18,8 @@ void cursorPos(int x, int y) {
 	Pos.X = x;
 	Pos.Y = y;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
+	
+	return;
 }
 
 void cursorView(bool visible) {
@@ -25,12 +27,15 @@ void cursorView(bool visible) {
     cursorInfo.dwSize = 1;
     cursorInfo.bVisible = (visible) ? TRUE : FALSE;
     SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
+    
+    return;
 }
 
 void game_reset(void) {
 	board_init();
 	brick_init();
-	game_score = 0;
+	
+	return;
 }
 
 int game_pause(void) {

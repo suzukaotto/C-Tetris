@@ -10,8 +10,6 @@
 int GAME_DELAY = 10;  // ms
 int DROP_TIME  = 20;
 
-unsigned int score;
-
 void game_play();
 void game_tutorial();
 
@@ -105,7 +103,7 @@ void game_play() {
 			case ks:
 			case kS:
 				brick_move(0, 1, 0);
-				brick_down = false;
+//				brick_down = false;
 				break;
 			
 			// brick rotate
@@ -126,7 +124,8 @@ void game_play() {
 				break;
 			
 			// reset game
-			case kBackspace:
+			case kg:
+			case kG:
 				game_reset();
 				break;
 			
@@ -148,9 +147,9 @@ void game_play() {
 		if (fps_count%DROP_TIME==0 && brick_down)
 			brick_move(0, 1, 0);
 		
-		score += board_break();
+		board_break();
 		cursorPos(20, 15);
-		printf("SCORE: %d", game_score);
+		printf("SCORE: %d", 0);
 		
 		// game delay
 		Sleep(GAME_DELAY);

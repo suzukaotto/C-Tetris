@@ -1,6 +1,7 @@
 #include "object.h"
 #include "func.h"
 
+#include <stdbool.h>
 #include <time.h>
 
 char board[BOARD_Y+2][BOARD_X+2];
@@ -29,8 +30,9 @@ void board_print() {
 	
 	// board print
 	for (y=0; y<BOARD_Y+2; y++) {
-		for (x=0; x<BOARD_X+2; x++)
+		for (x=0; x<BOARD_X+2; x++) {
 			printf("%c", board[y][x]);
+		}			
 		printf("\n");
 	}
 	
@@ -43,13 +45,18 @@ int board_break() {
 	for (y = BOARD_Y; y > 0; y--) {
 		bool line_full = true;
 		
-		for (x = 1; x < BOARD_X + 1; x++)
-			if (board[y][x] != BOARD_BRICK)
+		for (x=1; x < (BOARD_X+1); x++)
+			if (board[y][x] != BOARD_BRICK) {
 				line_full = false;
+				break; 
+			}
+				
 		
 		if (line_full) {
-			game_score += LINE_SCORE;
-			for (x = 1; x < BOARD_X + 1; x++) {
+			// add score
+			// ---
+			
+			for (x=1; x < BOARD_X+1; x++) {
 				board[y][x] = BOARD_BG;
 				Sleep(10);
 				
@@ -59,9 +66,9 @@ int board_break() {
 			}
 				
 			
-			for (i = y - 1; i > 0; i--) {
-				for (x = 1; x < BOARD_X + 1; x++) {
-					board[i + 1][x] = board[i][x];
+			for (i=y-1; i > 0; i--) {
+				for (x=1; x < BOARD_X+1; x++) {
+					board[i+1][x] = board[i][x];
 				}
 			}
 		}
@@ -269,7 +276,7 @@ char tetromino[7][4][4][4] = {
 	}	
 };
 
-void brick_init() {
+int brick_init() {
 	brick_pos[0]      = 4; // X
 	brick_pos[1]      = 1; // Y
 	brick_form   = rand()%BRICK_MAX_FORM;
@@ -290,7 +297,7 @@ void brick_print() {
 		}
 	}
 	
-	return 0;
+	return;
 }
 
 void brick_set() {
@@ -302,6 +309,8 @@ void brick_set() {
 				board[brick_pos[1]+board_y][brick_pos[0]+board_x] = BOARD_BRICK;
 		}
 	}
+	
+	return;
 }
 
 int brick_move(int x, int y, int rotate) {
@@ -355,6 +364,7 @@ int brick_move(int x, int y, int rotate) {
 	brick_pos[0] = vif_pos[0];
 	brick_pos[1] = vif_pos[1];
 	brick_rotate = vif_rotate;
+	
 	return 0;
 }
 
@@ -363,7 +373,7 @@ void brick_harddrop() {
 	while (1) {
 		rst = brick_move(0, 1, 0);
 		if (rst == 2)
-			return 0;
+			return;
 	}
 }
 
