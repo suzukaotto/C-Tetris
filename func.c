@@ -73,7 +73,7 @@ int game_pause(void) {
 	cursorPos(view_x, view_y);
 	printf("Game Pause . . . ");
 	cursorPos(view_x, view_y+1);
-	printf("Press any key to continue . . . ");	
+	printf("Press any key to continue . . . ");
 	
 	getch();
 	cursorView(false);

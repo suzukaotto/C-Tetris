@@ -66,11 +66,9 @@ int board_break() {
 			}
 				
 			
-			for (i=y-1; i > 0; i--) {
-				for (x=1; x < BOARD_X+1; x++) {
+			for (i=y-1; i > 0; i--)
+				for (x=1; x < BOARD_X+1; x++)
 					board[i+1][x] = board[i][x];
-				}
-			}
 		}
 	}
 	

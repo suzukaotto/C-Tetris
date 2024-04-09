@@ -50,12 +50,14 @@ int main() {
 }
 
 void game_tutorial() {
-	printf("방 향 키: WASD  \n");
+	printf("T E T R I S     \n");
+	printf("                \n");
+	printf("이    동: WASD  \n");
 	printf("회    전: R     \n");
 	printf("하드드롭: SPACE \n");
 	printf("게임리셋: G     \n");
-	printf("일시중지: P     \n");
-	printf("니 기 기: ESC   \n");
+	printf("일시정지: P     \n");
+	printf("나 가 기: ESC   \n");
 	
 	printf("\n\n\n\n\n");
 	
@@ -84,8 +86,12 @@ void game_play() {
 		board_print();
 		
 		// brick print
-		printf("FPS_Count : %d \n", fps_count);
-		printf("form=%d, rota=%d (x=%d, y=%d) \n", brick_form+1, brick_rotate+1, brick_pos[0], brick_pos[1]);
+		if (DEBUG_MODE) {
+			printf("FPS_Count : %d \n", fps_count);
+			printf("form=%d, rota=%d (x=%d, y=%d) \n", brick_form+1, brick_rotate+1, brick_pos[0], brick_pos[1]);
+		}
+		
+		// brick print
 		brick_print();
 		
 		// key control
@@ -102,15 +108,15 @@ void game_play() {
 				brick_move(1, 0, 0);
 				break;
 			
-			case kw:
-			case kW:
-				brick_move(0, -1, 0);
-				break;
+//			case kw:
+//			case kW:
+//				brick_move(0, -1, 0);
+//				break;
 			
 			case ks:
 			case kS:
 				brick_move(0, 1, 0);
-//				brick_down = false;
+				brick_down = false;
 				break;
 			
 			// brick rotate
@@ -155,8 +161,8 @@ void game_play() {
 			brick_move(0, 1, 0);
 		
 		board_break();
-		cursorPos(20, 15);
-		printf("SCORE: %d", 0);
+//		cursorPos(20, 15);
+//		printf("SCORE: %d", 0);
 		
 		// game delay
 		Sleep(GAME_DELAY);
